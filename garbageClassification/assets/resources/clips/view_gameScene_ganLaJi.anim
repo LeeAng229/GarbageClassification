@@ -1,0 +1,37 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "view_gameScene_ganLaJi",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.7142857142857142,
+  "sample": 7,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "3bcd51fa-ac62-4743-88ea-4aaa09e019e0"
+            }
+          },
+          {
+            "frame": 1.4285714285714286,
+            "value": {
+              "__uuid__": "dae17cf4-b24d-4cd9-a6b5-93dd9e378ffe"
+            }
+          },
+          {
+            "frame": 1.5714285714285714,
+            "value": {
+              "__uuid__": "3bcd51fa-ac62-4743-88ea-4aaa09e019e0"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

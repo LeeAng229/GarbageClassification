@@ -1,0 +1,14 @@
+{
+    "shiLaJi":{
+        "type":0
+    },
+    "keHuiShou":{
+        "type":1
+    },
+    "youHai":{
+        "type":2
+    },
+    "ganLaJi":{
+        "type":3
+    }
+}
