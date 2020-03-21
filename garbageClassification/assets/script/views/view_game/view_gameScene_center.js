@@ -2,7 +2,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        dustbinParents:[cc.Node]
+        dustbins:[cc.Node]
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -10,7 +10,11 @@ cc.Class({
     onLoad () {
         //根据json配置信息动态加载垃圾桶
         //this.getDustbinsBuConfig();
-        GS.event.fire('getDustins',this.dustbins);
+        this.dustbins[0].type = 2;
+        this.dustbins[1].type = 1;
+        this.dustbins[2].type = 0;
+        this.dustbins[3].type = 3;
+        GS.event.fire('getDustbins',this.dustbins);
     },
 
     getDustbinsBuConfig(){

@@ -47,10 +47,10 @@ cc.Class({
         }
 
         //获取四个垃圾桶的节点信息
-        GS.event.on('getDustins',this.getDustins.bind(this));
+        GS.event.on('getDustins',this.getDustdins.bind(this));
     },
 
-    getDustins(arr){
+    getDustdins(arr){
         return arr;
     },
 
@@ -114,4 +114,20 @@ cc.Class({
             }
         }
     },
+    garbageTouchStart(target){
+        this.scortZoder(target);
+    },
+
+    garbageTouchMove(target){
+        
+    },
+
+    garbageTouchEnd(target){
+        
+    },
+
+    //为目标节点提升显示等级
+    scortZoder(target){
+        target.node.zIndex = 100;
+    }
 });
