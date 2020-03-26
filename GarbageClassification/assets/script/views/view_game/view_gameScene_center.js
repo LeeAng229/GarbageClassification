@@ -14,7 +14,7 @@ cc.Class({
         this.dustbins[1].type = 1;
         this.dustbins[2].type = 0;
         this.dustbins[3].type = 3;
-        GS.event.fire('getDustbins',this.dustbins);
+        GS.event.fire('setDustbins',this.dustbins);
     },
 
     getDustbinsBuConfig(){

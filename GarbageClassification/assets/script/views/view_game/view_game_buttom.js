@@ -1,3 +1,6 @@
+const TAG = 'view_gameScene_garbage';
+const LOG = GS.Log.create({TAG});
+
 cc.Class({
     extends: cc.Component,
 
@@ -38,20 +41,20 @@ cc.Class({
             let boundY = GS.Random.getRandom(-324,-124);
             garbage.y = boundY;
             garbage.x = 900;
+            garbage.id = i;
 
             garbage.getChildByName('view_garbage').on(cc.Node.EventType.TOUCH_END,(event)=>{
-                cc.log(garbage.type);
             })
 
             this.unUsedGarbages.push(garbage);
-        }
 
-        //获取四个垃圾桶的节点信息
-        GS.event.on('getDustins',this.getDustdins.bind(this));
+            //获取四个垃圾桶的节点信息
+            GS.event.on('setDustbins',this.setDustbins.bind(this));
+        }
     },
 
-    getDustdins(arr){
-        return arr;
+    setDustbins(arr){
+        this.dustbins = arr;
     },
 
     //生成垃圾，并让它随着传送带一起运动
@@ -64,6 +67,7 @@ cc.Class({
             let random = GS.Random.getRandom(0,20);
             let garbageUrl = data.json.garbages[random].url;
             let type = data.json.garbages[random].type;
+            let garbageName = data.json.garbages[random].name;
             //cc.log(garbageUrl,random);
             cc.loader.loadRes(garbageUrl,cc.SpriteFrame,(err,data)=>{
                 if(err){
@@ -72,6 +76,7 @@ cc.Class({
                 }
                 let garbage = this.unUsedGarbages[0];
                 garbage.type = type;
+                garbage.garbageName = garbageName;
                 garbage.getChildByName('view_garbage').getComponent(cc.Sprite).spriteFrame = data;
                 this.unUsedGarbages.shift();
                 this.usedGarbages.push(garbage);
@@ -95,21 +100,41 @@ cc.Class({
         }
         let afterTime = GS.GSDate.timeStamp();
         if(afterTime - this.beforeTime >= 1000){
-            if(this.unUsedGarbages.length == 0){
+            if(this.unUsedGarbages.length <= 10){
                 let garbage = cc.instantiate(this.garbagePre);
+                let boundY = GS.Random.getRandom(-324,-124);
+                garbage.position = cc.v2(900,boundY);
+                garbage.parent = this.node;
+                let maxId = -10000;
+                let tempArr = [];
+                for(let i in this.usedGarbages){
+                    tempArr.push(this.usedGarbages[i]);
+                }
+                for(let i in this.unUsedGarbages){
+                    tempArr.push(this.unUsedGarbages[i]);
+                }
+                for(let i in tempArr){
+                    if(tempArr[i].id > maxId){
+                        maxId = tempArr[i].id;
+                    }
+                }
+                garbage.id = maxId + 1;
                 this.unUsedGarbages.push(garbage);
-                cc.log('实例化了好多！');
+                LOG.debug('实例化了好多！');
             }
-            this.genGarbage();
+            if(this.unUsedGarbages.length > 0)
+                this.genGarbage();
             this.beforeTime = afterTime;
         }
         for(let i in this.usedGarbages){
             if(this.speed){
-                this.usedGarbages[i].x -= this.speed;
-                if(this.usedGarbages[i].x <= -900){
-                    this.usedGarbages[i].x = 900;
-                    this.unUsedGarbages.push(this.usedGarbages[i]);
-                    this.usedGarbages.splice(i,1);
+                if(this.usedGarbages[i].state === 'moving'){
+                    this.usedGarbages[i].x -= this.speed;
+                    if(this.usedGarbages[i].x <= -900){
+                        this.usedGarbages[i].x = 900;
+                        this.unUsedGarbages.push(this.usedGarbages[i]);
+                        this.usedGarbages.splice(i,1);
+                    }
                 }
             }
         }
@@ -118,12 +143,29 @@ cc.Class({
         this.scortZoder(target);
     },
 
-    garbageTouchMove(target){
-        
-    },
-
     garbageTouchEnd(target){
-        
+        let targetPos = target.node.position;
+        let minDis = 10000;
+        let targetBustbin = undefined;
+        for(let i = 0;i<this.dustbins.length;i++){
+            let dis = targetPos.sub(this.dustbins[i].position).mag();
+            if(dis < minDis){
+                minDis = dis;
+                if(minDis <= 180)
+                    targetBustbin = this.dustbins[i];
+            }
+        }
+        if(targetBustbin && targetBustbin.type === target.node.type){
+            let boundY = GS.Random.getRandom(-324,-124);
+            target.node.position = cc.v2(900,boundY);
+            let targetId = target.node.id;
+            for(let i in this.usedGarbages){
+                if(targetId === this.usedGarbages[i].id){
+                    this.unUsedGarbages.push(this.usedGarbages[i]);
+                    this.usedGarbages.splice(i,1);
+                }
+            }
+        }
     },
 
     //为目标节点提升显示等级
