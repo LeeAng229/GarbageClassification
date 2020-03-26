@@ -6,7 +6,8 @@ cc.Class({
 
     properties: {
         scrollBarPre:cc.Prefab,
-        garbagePre:cc.Prefab
+        garbagePre:cc.Prefab,
+        resultPre:cc.Prefab
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -140,6 +141,7 @@ cc.Class({
         }
     },
     garbageTouchStart(target){
+        this.startPos = target.node.position;
         this.scortZoder(target);
     },
 
@@ -156,6 +158,7 @@ cc.Class({
             }
         }
         if(targetBustbin && targetBustbin.type === target.node.type){
+            let rightPos = target.node.position;
             let boundY = GS.Random.getRandom(-324,-124);
             target.node.position = cc.v2(900,boundY);
             let targetId = target.node.id;
@@ -165,7 +168,38 @@ cc.Class({
                     this.usedGarbages.splice(i,1);
                 }
             }
+            this.showResult('right',rightPos);
+        }else if(targetBustbin && targetBustbin.type !== target.node.type){
+            let wrongPos = target.node.position;
+            this.showResult('wrong',wrongPos);
+            target.node.runAction(
+                cc.moveTo(0.5,cc.v2(wrongPos.x,this.startPos.y))
+            )
         }
+    },
+
+    showResult(result,resultPos){
+        //实例化一个正确的结果回馈
+        if(!this.result)
+            this.result = cc.instantiate(this.resultPre);
+        cc.loader.loadRes(`images/gameView/${result}`,cc.SpriteFrame,(err,data)=>{
+            if(err){
+                LOG.error('资源加载有误，请检查路径是否正确');
+                return;
+            }
+            this.result.getComponent(cc.Sprite).spriteFrame = data;
+            this.result.parent = this.node;
+            this.result.position = resultPos;
+            if(this.result.active === false){
+                this.result.active = true;
+            }
+            this.result.runAction(
+                cc.sequence(
+                    cc.scaleTo(0.5,1),
+                    cc.scaleTo(0.1,0)
+                )
+            );
+        });
     },
 
     //为目标节点提升显示等级

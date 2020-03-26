@@ -30,12 +30,12 @@ cc.Class({
                     return;
                 }
                 let viewNameNode = cc.instantiate(prefab);
-                viewNameNode.parent = this.node.getChildByName('content').getChildByName(`${viewname}`);
+                viewNameNode.parent = this.node.getChildByName(`${viewname}`);
 
                 //判断viewname是否为view_gameScene_top
                 if(viewname === 'view_gameScene_top'){
                     //如果是的话，初始化进度条和星星
-                    viewNameNode.getChildByName('view_top_progressBar').width = 744*0;
+                    viewNameNode.getChildByName('view_top_progressBar').width = GS.Constants.progressBarWidth*0;
                     viewNameNode.getChildByName('view_top_stars').children.forEach(child=>{
                         child.active = false;
                     })

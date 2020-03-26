@@ -29,6 +29,7 @@ class Log{
         this._config = config;
         this._showTimeStamp = this._config.timeStamp;
         this._logList = [];
+        this._tag = config.TAG;
     }
     _getLogInfo(type, infos){
         let time = this._showTimeStamp ? _formatTime(new Date()) : '';

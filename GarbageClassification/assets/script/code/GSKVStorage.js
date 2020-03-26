@@ -26,4 +26,4 @@ class GSKVStorage{
 }
 
 let _instance = null;
-module.exprots = GSKVStorage.getInstance();
+module.exports = GSKVStorage.getInstance();

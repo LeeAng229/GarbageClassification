@@ -1,6 +1,7 @@
 const TAG = "VIEW_SCENE_GAMESCENE";
 const LOG = GS.Log.create(TAG);
 const ViewMap = new Map();
+import loadAudio from '../../common/loadMusics'
 
 const ViewNames = {
     VIEW_GAMESCENE_TOP:'view_gameScene_top',

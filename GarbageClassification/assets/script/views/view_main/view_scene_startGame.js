@@ -1,6 +1,7 @@
 const TAG = "VIEW_SCENE_STARTGAME";
 const LOG = GS.Log.create(TAG);
 const ViewMap = new Map();
+import loadAudio from '../../common/loadMusics'
 
 const ViewNames = {
     VIEW_MAIN_BG:'view_main_bg',
@@ -40,6 +41,9 @@ cc.Class({
                 cc.callFunc(()=>{
                     this.loadViews();
                     view_healthy.destroy();
+                    let path = 'musics/bg';
+                    let music_config = [{MUSIC_KEY:'musics/bg'}];
+                    loadAudio.loadMusicByPath(music_config,path);
                 })
             )
         );

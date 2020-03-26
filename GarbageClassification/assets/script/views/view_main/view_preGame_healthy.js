@@ -20,7 +20,6 @@ cc.Class({
                 cc.delayTime(1)
             )
         );
-        
     },
 
     start () {

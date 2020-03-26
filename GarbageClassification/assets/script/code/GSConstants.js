@@ -5,4 +5,5 @@ GSConstants.LOG_LEVEL = {
     ERROR: 3
 };
 GSConstants.AUDIO_MUTE_KEY = "AUDIO_MUTE_KEY";
+GSConstants.progressBarWidth = 744;
 module.exports = GSConstants;

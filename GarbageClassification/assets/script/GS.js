@@ -2,7 +2,7 @@ import EventListener from './common/event_listener';
 
 cc.log('load GS');
 window.GS = {};
-GS.Constant = require('./code/GSConstants.js');
+GS.Constants = require('./code/GSConstants.js');
 GS.Utils = require('./code/GSUtils.js');
 GS.Log = require('./code/GSLog.js'); 
 GS.GLOG = GS.Log.GLOG; // 全局日志

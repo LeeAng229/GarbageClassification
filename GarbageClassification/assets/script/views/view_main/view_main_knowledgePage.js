@@ -19,6 +19,9 @@ const trashValue = {
     view_trash_residualWaste:4
 }
 
+import loadAudio from '../../common/loadMusics';
+const loadSound = loadAudio.loadSoundByPath;
+
 cc.Class({
     extends: cc.Component,
 
@@ -53,6 +56,11 @@ cc.Class({
          this.garbageSelArr.push(garbageSel);
          //给所有的垃圾箱节点添加点击事件
          trashNode.on(cc.Node.EventType.TOUCH_END,(event)=>{
+            //给每一个垃圾桶加入一个点击音效
+            let path = 'musics/btn';
+            let sound_config = [{'TOUCH_SOUND':path}];
+            loadSound(sound_config,path);
+
              //遍历garbageSelArr数组，在每次点击一个垃圾箱之前对所有的垃圾箱选中状态改变为未选中状态
              this.garbageSelArr.forEach(garbageSel=>{
                  garbageSel.active = false;

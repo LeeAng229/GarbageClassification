@@ -22,14 +22,17 @@
       }
     ],
     "_active": true,
-    "_level": 5,
+    "_level": 1,
     "_components": [
       {
         "__id__": 6
+      },
+      {
+        "__id__": 8
       }
     ],
     "_prefab": {
-      "__id__": 7
+      "__id__": 9
     },
     "_opacity": 255,
     "_color": {
@@ -207,7 +210,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "79092010-1dc2-43d5-aac6-e6b955376b50"
     },
     "fileId": "92Hpkgk6NNXIDmB5pLJE+x",
     "sync": false
@@ -222,7 +225,11 @@
     "_enabled": true,
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 7
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 2,
@@ -291,12 +298,32 @@
     "_id": ""
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "",
+    "_componentId": "add85X9XXxGwbaSqcmyJNqA",
+    "handler": "loadSoundByPath",
+    "customEventData": "musics/btn"
+  },
+  {
+    "__type__": "add85X9XXxGwbaSqcmyJNqA",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_id": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "79092010-1dc2-43d5-aac6-e6b955376b50"
     },
     "fileId": "a7S6JuG3lFKYV61w0phOq/",
     "sync": false

@@ -6,7 +6,7 @@ class AudioManager{
     }
     /**
      * sound_config: [{SOUND_KEY:"sound_path"},{SOUND_KEY:"sound_path"}]
-     * music_config: [{MUSIC_KEY}:"music_path",{MUSIC_KEY:"music_path"}]
+     * music_config: [{MUSIC_KEY:"music_path"},{MUSIC_KEY:"music_path"}]
      */
     init(sound_config, music_config){
         this.bgMusicCache = new Map();
@@ -21,14 +21,18 @@ class AudioManager{
         this.log = GS.Log.create({TAG: TAG});
     }
     loadRes(){
-        let sound_keys = Reflect.ownKeys(this.soundConfig); 
-        let bg_keys = Reflect.ownKeys(this.musicConfig);
-        sound_keys.forEach(key=>{
-            !this.soundCache.has(key) && this.addSoundByPath(this.soundConfig[key]);
-        });
-        bg_keys.forEach(key=>{
-            !this.bgMusicCache.has(key) && this.addMusicByPath(this.musicConfig[key]);
-        });
+        if(this.soundConfig){
+            let sound_keys = Reflect.ownKeys(this.soundConfig); 
+            sound_keys.forEach(key=>{
+                !this.soundCache.has(key) && this.addSoundByPath(this.soundConfig[key]);
+            });
+        }
+        if(this.musicConfig){
+            let bg_keys = Reflect.ownKeys(this.musicConfig);
+            bg_keys.forEach(key=>{
+                !this.bgMusicCache.has(key) && this.addMusicByPath(this.musicConfig[key]);
+            });
+        }
     }
     addSoundByPath(path, is_play_after_load = false){
         try {
@@ -96,4 +100,4 @@ class AudioManager{
 
 }
 let _instance = null;
-module.exprots = AudioManager.getInstance();
+module.exports = AudioManager.getInstance();
