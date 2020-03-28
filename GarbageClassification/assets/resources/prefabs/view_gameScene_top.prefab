@@ -291,7 +291,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "view_top_scores",
+    "_name": "view_top_score",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -322,12 +322,12 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -312.24,
+      "x": -310.19,
       "y": 316.348,
       "z": 0
     },

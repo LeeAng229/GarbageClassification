@@ -23,10 +23,10 @@ cc.Class({
             self.node.state = 'moving';
             self.node.parent.getComponent('view_game_buttom').garbageTouchEnd(self);
         }
-        this.node.on(cc.Node.EventType.TOUCH_START,touchStart);
-        this.node.on(cc.Node.EventType.TOUCH_MOVE,touchMove);
-        this.node.on(cc.Node.EventType.TOUCH_END,touchEnd);
-        this.node.on(cc.Node.EventType.TOUCH_CANCEL,touchEnd);
+        this.node.getChildByName('view_garbage').on(cc.Node.EventType.TOUCH_START,touchStart);
+        this.node.getChildByName('view_garbage').on(cc.Node.EventType.TOUCH_MOVE,touchMove);
+        this.node.getChildByName('view_garbage').on(cc.Node.EventType.TOUCH_END,touchEnd);
+        this.node.getChildByName('view_garbage').on(cc.Node.EventType.TOUCH_CANCEL,touchEnd);
     },
 
     start () {

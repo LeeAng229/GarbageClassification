@@ -1,3 +1,5 @@
+import loadAudio from '../../common/loadMusics';
+
 cc.Class({
     extends: cc.Component,
 
@@ -8,9 +10,11 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this.node.on(cc.Node.EventType.TOUCH_END,(event)=>{
-            this.node.parent.active = false;
-        })
+    },
+
+    loadSound(event,path){
+        this.node.parent.active = false;
+        loadAudio.loadSoundByPath([{VIEW_KNOWLEDGEPAGE_BACK:path}],path);
     },
 
     start () {

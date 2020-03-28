@@ -1,0 +1,22 @@
+{
+    "level1":{
+        "isUnlock":true,
+        "starNum":0,
+        "time":"180S"
+    },
+    "level2":{
+        "isUnlock":false,
+        "starNum":0,
+        "time":"150S"
+    },
+    "level3":{
+        "isUnlock":false,
+        "starNum":0,
+        "time":"100S"
+    },
+    "level4":{
+        "isUnlock":false,
+        "starNum":0,
+        "time":"9999999999999S"
+    }
+}

@@ -1,3 +1,5 @@
+import { loadSoundByPath } from "../../common/loadMusics";
+
 const TAG = 'view_gameScene_garbage';
 const LOG = GS.Log.create({TAG});
 
@@ -7,21 +9,20 @@ cc.Class({
     properties: {
         scrollBarPre:cc.Prefab,
         garbagePre:cc.Prefab,
-        resultPre:cc.Prefab
+        resultPre:cc.Prefab,
+        view_gameScene:cc.Node
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        //设置成功的个数 和 星星的数量
+        this.rightTimes = 0;
+        this.starNum = 0;
         //生成一个时间戳
         this.beforeTime = GS.GSDate.timeStamp();
-        cc.loader.loadRes('JSON/gameConfig',(err,data)=>{
-            if(err){
-                cc.error('gameConfig解析有误，请检查路径是否正确');
-                return;
-            }
-            this.speed = (data.json.level1.star[1].speed);
-        });
+        //根据星星的数量设置一个速度,初始值为0
+        this.setSpeed(0);
         //定义一个存放这些传送带条的数组
         this.scrollBars = [];
         //定义一个存放这些垃圾节点的数组
@@ -44,14 +45,21 @@ cc.Class({
             garbage.x = 900;
             garbage.id = i;
 
-            garbage.getChildByName('view_garbage').on(cc.Node.EventType.TOUCH_END,(event)=>{
-            })
-
             this.unUsedGarbages.push(garbage);
 
             //获取四个垃圾桶的节点信息
             GS.event.on('setDustbins',this.setDustbins.bind(this));
         }
+    },
+
+    setSpeed(starNum){ 
+        cc.loader.loadRes('JSON/gameConfig',(err,data)=>{
+            if(err){
+                cc.error('gameConfig解析有误，请检查路径是否正确');
+                return;
+            }
+            this.speed = (data.json.level1.star[starNum].speed);
+        });
     },
 
     setDustbins(arr){
@@ -169,11 +177,42 @@ cc.Class({
                 }
             }
             this.showResult('right',rightPos);
+            //加载并播放正确的音效
+            loadSoundByPath([{clearWin:'musics/clearWin'}],'musics/clearWin');
+            //通过正确的数量改变进度条的长度和星星的个数
+            this.rightTimes += 1;
+            if(this.rightTimes >= 10 && this.rightTimes%10 == 0){
+                this.rightTimes = 0;
+                this.starNum += 1;
+                this.setSpeed(this.starNum);
+            }
+            this.view_gameScene.getComponent('view_gameScene').setRightAndStarNum(this.rightTimes,this.starNum);
+            //改变分数
+            this.view_gameScene.getComponent('view_gameScene').setScore(10);
         }else if(targetBustbin && targetBustbin.type !== target.node.type){
             let wrongPos = target.node.position;
             this.showResult('wrong',wrongPos);
             target.node.runAction(
                 cc.moveTo(0.5,cc.v2(wrongPos.x,this.startPos.y))
+            )
+            //加载并播放错误的音效
+            loadSoundByPath([{clearWin:'musics/clearFail'}],'musics/clearFail');
+            this.rightTimes = this.starNum * 10 + this.rightTimes;
+            if(this.rightTimes > 0){
+                this.rightTimes -= 2;
+                if(this.rightTimes < 0){
+                    this.rightTimes = 0;
+                }
+            }
+            this.starNum = Math.floor(this.rightTimes/10);
+            this.rightTimes = this.rightTimes%10;
+            this.setSpeed(this.starNum);
+            this.view_gameScene.getComponent('view_gameScene').setRightAndStarNum(this.rightTimes,this.starNum);
+            //改变分数
+            this.view_gameScene.getComponent('view_gameScene').setScore(-20);
+        }else if(!targetBustbin){
+            target.node.runAction(
+                cc.moveTo(0.5,cc.v2(target.node.x,this.startPos.y))
             )
         }
     },

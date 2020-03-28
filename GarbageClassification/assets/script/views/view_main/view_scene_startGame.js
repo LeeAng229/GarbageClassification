@@ -25,6 +25,18 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        //加载等级信息
+        if(!GS.KVStorage.loadObj('GameLevelConfig')){
+            cc.loader.loadRes('JSON/gameConfig',(err,data)=>{
+                if(err){
+                    cc.error('gameConfig加载失败，请检查路径是否正确');
+                    return;
+                }
+                let gameConfig = data.json;
+                GS.KVStorage.saveObj('GameLevelConfig',gameConfig);
+            })
+        }
+
         this.garbageKnowledgeArr = [];
         this.garbageKnowledgePageArr = [];
         this.root = this.node.getChildByName('root');

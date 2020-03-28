@@ -15,6 +15,7 @@ cc.Class({
     },
 
     loadSoundByPath(event,path){
+        cc.log('触发了',this.node.name);
         let sound_config = [{BUTTON_CONFIG:path}];
         loadSound(sound_config,path);
     },
