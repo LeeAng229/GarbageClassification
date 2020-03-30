@@ -53,6 +53,8 @@ cc.Class({
     },
 
     setSpeed(starNum){ 
+        if(starNum > 3)
+            return;
         cc.loader.loadRes('JSON/gameConfig',(err,data)=>{
             if(err){
                 cc.error('gameConfig解析有误，请检查路径是否正确');
@@ -214,6 +216,12 @@ cc.Class({
             target.node.runAction(
                 cc.moveTo(0.5,cc.v2(target.node.x,this.startPos.y))
             )
+        }
+        if(this.starNum == 1){
+            let gameLevelInfo = GS.KVStorage.loadObj('GameLevelInfo');
+            gameLevelInfo.level1['starNum'] = 1;
+            GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
+            cc.log(GS.KVStorage.loadObj('GameLevelInfo').level1.starNum);
         }
     },
 

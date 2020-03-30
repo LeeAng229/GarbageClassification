@@ -6,13 +6,15 @@ import loadAudio from '../../common/loadMusics'
 const ViewNames = {
     VIEW_MAIN_BG:'view_main_bg',
     VIEW_MAIN_KNOWLEDGE:'view_main_knowledge',
-    VIEW_MAIN_STARTGAME:'view_main_startGame'
+    VIEW_MAIN_STARTGAME:'view_main_startGame',
+    VIEW_MAIN_MUTE:'view_main_mute'
 }
 
 const LoadViewsOnEnter = [
     ViewNames.VIEW_MAIN_BG,
     ViewNames.VIEW_MAIN_KNOWLEDGE,
-    ViewNames.VIEW_MAIN_STARTGAME
+    ViewNames.VIEW_MAIN_STARTGAME,
+    ViewNames.VIEW_MAIN_MUTE
 ]
 
 cc.Class({
@@ -26,14 +28,14 @@ cc.Class({
 
     onLoad () {
         //加载等级信息
-        if(!GS.KVStorage.loadObj('GameLevelConfig')){
-            cc.loader.loadRes('JSON/gameConfig',(err,data)=>{
+        if(!GS.KVStorage.loadObj('GameLevelInfo')){
+            cc.loader.loadRes('JSON/GameLevelInfo',(err,data)=>{
                 if(err){
-                    cc.error('gameConfig加载失败，请检查路径是否正确');
+                    cc.error('gameLevelInfo加载失败，请检查路径是否正确');
                     return;
                 }
                 let gameConfig = data.json;
-                GS.KVStorage.saveObj('GameLevelConfig',gameConfig);
+                GS.KVStorage.saveObj('GameLevelInfo',gameConfig);
             })
         }
 
@@ -90,13 +92,27 @@ cc.Class({
                 })
             }
 
-            //判断当viewName是view_main_startGame的时候，进行相应的处理
-            if(viewName == 'view_main_startGame'){
-                viewNameNode.on(cc.Node.EventType.TOUCH_END,(event)=>{
-                    //做一个场景的跳转
-                    cc.director.loadScene('GameScene');
-                })
-            }
+            // //判断当viewName是view_main_startGame的时候，进行相应的处理
+            // if(viewName == 'view_main_startGame'){
+            //     viewNameNode.on(cc.Node.EventType.TOUCH_END,(event)=>{
+            //         // //做一个场景的跳转
+            //         // cc.director.loadScene('GameScene');
+
+            //         //把所有子节点弹出来
+            //         let children = viewNameNode.children;
+            //         for(let i = 0;i<children.length;i++){
+            //             let child = children[i];
+            //             let childPos = child.position;
+            //             if(child.name !== 'Background' && child.name !== 'Mask'){
+            //                 child.active = true;
+            //                 child.runAction(
+            //                     cc.moveTo(0.1,cc.v2(0,301*i)),
+            //                     cc.delayTime(0.5)
+            //                 )
+            //             }
+            //         }
+            //     })
+            // }
             ViewMap.set(viewName,viewNameNode);
         });
     },

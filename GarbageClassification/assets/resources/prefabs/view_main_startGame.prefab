@@ -28,11 +28,14 @@
         "__id__": 6
       },
       {
-        "__id__": 8
+        "__id__": 9
+      },
+      {
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 9
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -44,8 +47,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 201,
-      "height": 301
+      "width": 100.5,
+      "height": 150.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -60,8 +63,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.5,
-      "y": 0.5,
+      "x": 1,
+      "y": 1,
       "z": 1
     },
     "_eulerAngles": {
@@ -109,8 +112,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 201,
-      "height": 301
+      "width": 100.5,
+      "height": 150.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -228,6 +231,9 @@
     "clickEvents": [
       {
         "__id__": 7
+      },
+      {
+        "__id__": 8
       }
     ],
     "_N$interactable": true,
@@ -308,6 +314,16 @@
     "customEventData": "musics/btn"
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "",
+    "_componentId": "24e35uz+8dFt6/qKz+OfBWU",
+    "handler": "btnOpen",
+    "customEventData": ""
+  },
+  {
     "__type__": "add85X9XXxGwbaSqcmyJNqA",
     "_name": "",
     "_objFlags": 0,
@@ -315,6 +331,19 @@
       "__id__": 1
     },
     "_enabled": true,
+    "_id": ""
+  },
+  {
+    "__type__": "24e35uz+8dFt6/qKz+OfBWU",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "startGameOpenPre": {
+      "__uuid__": "7333a68a-6d7f-48bd-8de0-6fc7e78a08d1"
+    },
     "_id": ""
   },
   {
