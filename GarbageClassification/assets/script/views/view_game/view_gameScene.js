@@ -83,7 +83,7 @@ cc.Class({
             this.beforeTime = afterTime;
         }
         if(this.view_gameScene_top && this.starNum <= 3){
-            this.view_gameScene_top.getChildByName('view_top_progressBar').width = GS.Constants.progressBarWidth*(this.rightNum/10);
+            this.view_gameScene_top.getChildByName('view_top_progressBar').width = GS.Constants.progressBarWidth*(this.rightNum*GS.Constants.levelConfig.waves[key].width);
             let stars = this.view_gameScene_top.getChildByName('view_top_stars').children;
             for(let i = 0;i < stars.length; i++){
                 stars[i].active = false;

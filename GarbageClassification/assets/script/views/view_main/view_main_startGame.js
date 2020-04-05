@@ -18,16 +18,15 @@ cc.Class({
             view_main_startGame.startGameOpen = cc.instantiate(this.startGameOpenPre);
             view_main_startGame.startGameOpen.parent = view_main_startGame;
             view_main_startGame.startGameOpen.position = cc.v2(0, 0);
-            cc.log('实例化了');
             view_main_startGame.startGameOpen.getChildByName('Mask').on(cc.Node.EventType.TOUCH_END, (event) => {
                 view_main_startGame.startGameOpen.children.forEach((child) => {
                     if (child.name !== 'Mask') {
                         child.runAction(
                             cc.sequence(
                                 cc.moveTo(0.1, cc.v2(0,0)),
-                                cc.callFunc(() => {
-                                    cc.log(child.position);
-                                }),
+                                cc.callFunc(()=>{
+                                    
+                                })
                             )
                         )
                     }
@@ -56,7 +55,6 @@ cc.Class({
                 child.runAction(
                     cc.moveTo(0.1, cc.v2(0, 150 * i))
                 )
-                cc.log(child.position);
             }
             if(child.name === 'view_main_startGame_newGame'){
                 child.on(cc.Node.EventType.TOUCH_END,(event)=>{
@@ -67,8 +65,29 @@ cc.Class({
                         }
                         let gameConfig = data.json;
                         GS.KVStorage.saveObj('GameLevelInfo',gameConfig);
+                        let gameLevelInfo = GS.KVStorage.loadObj('GameLevelInfo');
+                        GS.Constants.levelConfig = gameLevelInfo.level1;
                     })
                     cc.director.loadScene('GameScene');
+                })
+            }
+
+            if(child.name === 'view_main_startGame_pauseGame'){
+                child.on(cc.Node.EventType.TOUCH_END,(event)=>{
+                    let gameLevelInfo = GS.KVStorage.loadObj('GameLevelInfo');
+                    let index = 0;
+                    for(let key in gameLevelInfo){
+                        if(gameLevelInfo[key].starNum > 0){
+                            index = key;
+                        }else{
+                            cc.log(index);
+                            //获取此时这个键的值
+                            let levelConfig = GS.KVStorage.loadObj('GameLevelInfo').key;
+                            GS.Constants.levelConfig = levelConfig;
+                            cc.director.loadScene('GameScene');
+                            break; 
+                        }
+                    }
                 })
             }
         }
