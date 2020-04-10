@@ -1,0 +1,37 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "view_gameScene_keHuiShou",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 2.2,
+  "sample": 5,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "3bcd51fa-ac62-4743-88ea-4aaa09e019e0"
+            }
+          },
+          {
+            "frame": 1.6,
+            "value": {
+              "__uuid__": "d884fd60-b8eb-4321-9ccc-48e8e5fc25ce"
+            }
+          },
+          {
+            "frame": 2,
+            "value": {
+              "__uuid__": "3bcd51fa-ac62-4743-88ea-4aaa09e019e0"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
