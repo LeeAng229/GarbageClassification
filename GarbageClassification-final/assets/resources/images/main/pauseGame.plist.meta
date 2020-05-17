@@ -1,0 +1,56 @@
+{
+  "ver": "1.2.4",
+  "uuid": "1c8769e2-1c69-433f-b91f-8087ef80c211",
+  "rawTextureUuid": "a3c50410-1091-4d5d-b5ad-e8dd3d795455",
+  "size": {
+    "width": 512,
+    "height": 512
+  },
+  "type": "Texture Packer",
+  "subMetas": {
+    "pauseGame.png": {
+      "ver": "1.0.4",
+      "uuid": "7df904d7-9e7b-4253-ae1f-8ac50507970a",
+      "rawTextureUuid": "a3c50410-1091-4d5d-b5ad-e8dd3d795455",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 229,
+      "trimY": 2,
+      "width": 199,
+      "height": 307,
+      "rawWidth": 199,
+      "rawHeight": 307,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "spriteType": "normal",
+      "subMetas": {}
+    },
+    "pauseGameSelected.png": {
+      "ver": "1.0.4",
+      "uuid": "c2790ca7-79d9-4f8f-89c8-4eb3eaa042fa",
+      "rawTextureUuid": "a3c50410-1091-4d5d-b5ad-e8dd3d795455",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 2,
+      "trimY": 2,
+      "width": 225,
+      "height": 325,
+      "rawWidth": 225,
+      "rawHeight": 325,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "spriteType": "normal",
+      "subMetas": {}
+    }
+  }
+}

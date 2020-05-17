@@ -1,0 +1,22 @@
+{
+    "props":[
+        {
+            "id":1,
+            "name":"自动分拣机",
+            "price":100,
+            "taskGetRate":10,
+            "introduce":"可以清除当前传送带上的所有垃圾，谨慎使用，因为它太不容易获取了",
+            "url":"images/props/robot",
+            "num":0
+        },
+        {
+            "id":2,
+            "name":"扫把",
+            "price":5,
+            "taskGetRate":90,
+            "introduce":"可以清除局部垃圾",
+            "url":"images/props/broom",
+            "num":0
+        }
+    ]
+}
