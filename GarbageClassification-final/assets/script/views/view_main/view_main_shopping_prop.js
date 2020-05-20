@@ -39,6 +39,7 @@ cc.Class({
             reqData.buy(id);
             this.num += 1;
             this.refreshPropNum(this.num);
+            this.refreshCoinNum();
         }else{
             cc.log('抱歉金币不够');
         }
@@ -47,6 +48,9 @@ cc.Class({
     //刷新道具的数量
     refreshPropNum(num){
         this.node.getChildByName('view_prop_number').getComponent(cc.Label).string = 'X' + num;
+    },
+    refreshCoinNum(){
+        this.node.parent.parent.parent.parent.getChildByName('view_main_coinNum').getComponent('view_main_coinNum').onLoad();
     },
 
     start () {

@@ -261,10 +261,12 @@ cc.Class({
     getCurrentGarbages(){
         let arr = [];
         for(let i in this.usedGarbages){
-            arr.push(this.usedGarbages[i]);
+            if(this.usedGarbages[i].type == 0 || this.usedGarbages[i].type == 1 || this.usedGarbages[i].type == 2 || this.usedGarbages[i].type == 3)
+                arr.push(this.usedGarbages[i]);
         }
         for(let i in this.upUsedGarbages){
-            arr.push(this.upUsedGarbages[i]);
+            if(this.upUsedGarbages[i].type == 0 || this.upUsedGarbages[i].type == 1 || this.upUsedGarbages[i].type == 2 || this.upUsedGarbages[i].type == 3)
+                arr.push(this.upUsedGarbages[i]);
         }
         return arr;
     },
@@ -301,6 +303,7 @@ cc.Class({
             if(afterTime - this.beforeTime >= this.levelConfig.waves[this.wave].dt && GS.Constants.gameState == 'play'){
                 if(this.unUsedGarbages.length <= 10){
                     let garbage = cc.instantiate(this.garbagePre);
+                    garbage.scale = 0.5;
                     let boundY = GS.Random.getRandom(-100,0);
                     let random1 = GS.Random.getRandom(0,10);
                     if(random1 >= 5 && random1 <= 9){
@@ -546,7 +549,7 @@ cc.Class({
                             obstacle.parent = this.node;
                             for(let i = 0;i < this.usedObstacles.length;i++){
                                 while(obstacle.position.sub(this.usedGarbages[i].position).mag() < 100){
-                                    obstacle.x += 50;
+                                    obstacle.x -= 1;
                                 }
                             }
                             this.unUsedObstacles.push(obstacle);
@@ -556,7 +559,7 @@ cc.Class({
                             obstacle.parent = this.node;
                             for(let i = 0;i < this.usedObstacles.length;i++){
                                 while(obstacle.position.sub(this.usedGarbages[i].position).mag() < 100){
-                                    obstacle.x += 50;
+                                    obstacle.x += 1;
                                 }
                             }
                             this.upUnUsedObstacles.push(obstacle);
@@ -916,7 +919,7 @@ cc.Class({
             case 3:
                 level = '关卡三';
                 break;
-            case undefined:
+            case 4:
                 level = '无尽模式';
         }
         view_level_wave.getChildByName('view_level').getComponent(cc.Label).string = level;

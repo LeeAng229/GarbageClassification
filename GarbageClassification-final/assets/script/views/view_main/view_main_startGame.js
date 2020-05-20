@@ -2,7 +2,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        startGameOpenPre: cc.Prefab
+        startGameOpenPre: cc.Prefab,
+        selectLevelPre:cc.Prefab
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -14,12 +15,14 @@ cc.Class({
     //触发btn按钮，实例化需要弹出的按钮
     btnOpen() {
         let view_main_startGame = this.node.parent;
-        //if (!view_main_startGame.startGameOpen) {
-            view_main_startGame.startGameOpen = cc.instantiate(this.startGameOpenPre);
-            view_main_startGame.startGameOpen.parent = view_main_startGame;
-            view_main_startGame.startGameOpen.position = cc.v2(0, 0);
-            view_main_startGame.startGameOpen.getChildByName('Mask').on(cc.Node.EventType.TOUCH_END, (event) => {
-                view_main_startGame.startGameOpen.children.forEach((child) => {
+        if (!this.startGameOpen) {
+            this.startGameOpen = cc.instantiate(this.startGameOpenPre);
+            this.startGameOpen.parent = view_main_startGame;
+            this.startGameOpen.position = cc.v2(0, 0);
+            //view_main_startGame.startGameOpen.destroy();
+            this.startGameOpen.getChildByName('Mask').on(cc.Node.EventType.TOUCH_END, (event) => {
+                cc.log('屏蔽层被点击了');
+                this.startGameOpen.children.forEach((child) => {
                     if (child.name !== 'Mask') {
                         child.runAction(
                             cc.sequence(
@@ -29,13 +32,14 @@ cc.Class({
                                 })
                             )
                         )
+                        child.position = cc.v2(0,0);
                     }
                 })
-                view_main_startGame.startGameOpen.destroy();
+                this.startGameOpen.active = false;
             })
-        // }else{
-        //     view_main_startGame.startGameOpen.active = true;
-        // }
+        }else{
+            this.startGameOpen.active = true;
+        }
         if(GS.KVStorage.loadObj("GameLevelInfo")){
             let gameLevelInfo = GS.KVStorage.loadObj('GameLevelInfo');
             for(let i in gameLevelInfo){
@@ -45,15 +49,17 @@ cc.Class({
             }
         }
 
-        for (let i = 0; i < view_main_startGame.startGameOpen.children.length; i++) {
-            let child = view_main_startGame.startGameOpen.children[i];
+        let yCount = 0;
+        for (let i = 0; i < this.startGameOpen.children.length; i++) {
+            yCount += 1;
+            let child = this.startGameOpen.children[i];
             if(child.name == 'view_main_startGame_pauseGame' && this.pauseGameState == 0){
                 child.active = false;
+                yCount -= 1;
             }
-
             if (child.name !== 'Mask') {
                 child.runAction(
-                    cc.moveTo(0.1, cc.v2(0, 150 * i))
+                    cc.moveTo(0.1, cc.v2(0, 150 * (yCount-1)))
                 )
             }
             if(child.name === 'view_main_startGame_newGame'){
@@ -110,6 +116,31 @@ cc.Class({
                         }
                         cc.log(index);
                     }
+                })
+            }
+            if(child.name == 'view_main_startGame_selectLevel'){
+                child.on(cc.Node.EventType.TOUCH_END,(event)=>{
+                    if(!this.selectLevel){
+                        this.selectLevel = cc.instantiate(this.selectLevelPre);
+                        this.selectLevel.parent = this.node.parent.parent;
+                        this.selectLevel.position = cc.v2(0,0);
+                    }else{
+                        this.selectLevel.active = true;
+                    }
+                    this.startGameOpen.children.forEach((child) => {
+                        if (child.name !== 'Mask') {
+                            child.runAction(
+                                cc.sequence(
+                                    cc.moveTo(0.1, cc.v2(0,0)),
+                                    cc.callFunc(()=>{
+                                        
+                                    })
+                                )
+                            )
+                            child.position = cc.v2(0,0);
+                        }
+                    })
+                    this.startGameOpen.active = false;
                 })
             }
         }

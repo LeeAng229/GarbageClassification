@@ -88,7 +88,7 @@ cc.Class({
         for(let i = 0; i < 20; i++){
             let garbage = cc.instantiate(this.garbagePre);
             let random1 = GS.Random.getRandom(0,10);
-            if(random1 >= 5 && random1 <= 9){
+            if(random1 >= 7 && random1 <= 9){
                 garbage.position = cc.v2(900,-114);
 
                 garbage.parent = this.node;
@@ -260,10 +260,12 @@ cc.Class({
     getCurrentGarbages(){
         let arr = [];
         for(let i in this.usedGarbages){
-            arr.push(this.usedGarbages[i]);
+            if(this.usedGarbages[i].type == 0 || this.usedGarbages[i].type == 1 || this.usedGarbages[i].type == 2 || this.usedGarbages[i].type == 3)
+                arr.push(this.usedGarbages[i]);
         }
         for(let i in this.upUsedGarbages){
-            arr.push(this.upUsedGarbages[i]);
+            if(this.upUsedGarbages[i].type == 0 || this.upUsedGarbages[i].type == 1 || this.upUsedGarbages[i].type == 2 || this.upUsedGarbages[i].type == 3)
+                arr.push(this.upUsedGarbages[i]);
         }
         return arr;
     },
@@ -300,12 +302,12 @@ cc.Class({
             if(afterTime - this.beforeTime >= this.levelConfig.waves[this.wave].dt && GS.Constants.gameState == 'play'){
                 if(this.unUsedGarbages.length <= 10){
                     let garbage = cc.instantiate(this.garbagePre);
-                    garbage.scale = 0.5;
                     let boundY = GS.Random.getRandom(-100,0);
                     let random1 = GS.Random.getRandom(0,10);
-                    if(random1 >= 5 && random1 <= 9){
+                    if(random1 >= 7 && random1 <= 9){
                         garbage.position = cc.v2(900,-114);
                         garbage.parent = this.node;
+                        garbage.scale = 0.5;
                         let maxId = -10000;
                         let tempArr = [];
                         for(let i in this.usedGarbages){
@@ -331,6 +333,7 @@ cc.Class({
                     }else{
                         garbage.position = cc.v2(-900,-12);
                         garbage.parent = this.node;
+                        garbage.scale = 0.5;
                         let maxId = -10000;
                         let tempArr = [];
                         for(let i in this.usedGarbages){
@@ -383,7 +386,9 @@ cc.Class({
                         //结束判断是否成功通关
                         if(this.starNum >= 2){
                             let gameLevelInfo = GS.Constants.gameLevelInfo;
-                            gameLevelInfo[`level3`].starNum = this.starNum;
+                            if(this.starNum >= gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum){
+                                gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+                            }
                             GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
                             let success = cc.instantiate(this.success_pre);
                             success.parent = this.node;
@@ -405,6 +410,11 @@ cc.Class({
                             }
                         }else{
                             this.wave -= 1;
+                            let gameLevelInfo = GS.Constants.gameLevelInfo;
+                            if(this.starNum >= gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum){
+                                gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+                            }
+                            GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
                             let defeat = cc.instantiate(this.defeat_pre);
                             defeat.parent = this.node;
                             defeat.position = cc.v2(0,0);
@@ -560,7 +570,7 @@ cc.Class({
 
             //按百分之十的概率随机生成障碍物
             //this.obstacleBeforeTime += dt;
-            if(afterTime - this.obstacleBeforeTime >= 2000){
+            if(afterTime - this.obstacleBeforeTime >= 2000 && GS.Constants.gameState == 'play'){
                 let random = GS.Random.getRandom(0,10);
                 cc.log('时间间隔为：',afterTime - this.obstacleBeforeTime,'    随机数为：',random);
                 this.obstacleBeforeTime = afterTime;
@@ -573,9 +583,9 @@ cc.Class({
                         if(random1 >=5 && random1 <=9){
                             obstacle.position = cc.v2(900,-114);
                             obstacle.parent = this.node;
-                            for(let i = 0;i < this.usedObstacles.length;i++){
+                            for(let i = 0;i < this.usedGarbages.length;i++){
                                 while(obstacle.position.sub(this.usedGarbages[i].position).mag() < 100){
-                                    obstacle.x -= 100;
+                                    obstacle.x -= 1;
                                 }
                             }
                             this.unUsedObstacles.push(obstacle);
@@ -583,9 +593,9 @@ cc.Class({
                         else{
                             obstacle.position = cc.v2(-900,-12);
                             obstacle.parent = this.node;
-                            for(let i = 0;i < this.usedObstacles.length;i++){
-                                while(obstacle.position.sub(this.usedGarbages[i].position).mag() < 100){
-                                    obstacle.x -= 100;
+                            for(let i = 0;i < this.upUsedGarbages.length;i++){
+                                while(obstacle.position.sub(this.upUsedGarbages[i].position).mag() < 100){
+                                    obstacle.x += 1;
                                 }
                             }
                             this.upUnUsedObstacles.push(obstacle);
@@ -641,7 +651,9 @@ cc.Class({
             if(this.errorNum == 3){
                 if(this.starNum >= 2){
                     let gameLevelInfo = GS.Constants.gameLevelInfo;
-                    gameLevelInfo[`level3`].starNum = this.starNum;
+                    if(this.starNum >= gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum){
+                        gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+                    }
                     GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
                     this.wave -= 1;
                     let success = cc.instantiate(this.success_pre);
@@ -664,6 +676,11 @@ cc.Class({
                     }
                 }else{
                     this.wave -= 1;
+                    let gameLevelInfo = GS.Constants.gameLevelInfo;
+                    if(this.starNum >= gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum){
+                        gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+                    }
+                    GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
                     let defeat = cc.instantiate(this.defeat_pre);
                     defeat.parent = this.node.parent;
                     defeat.position = cc.v2(0,0);
@@ -928,6 +945,11 @@ cc.Class({
             }
         }else{
             this.wave -= 1;
+            let gameLevelInfo = GS.Constants.gameLevelInfo;
+            if(this.starNum >= gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum){
+                gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+            }
+            GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
             let defeat = cc.instantiate(this.defeat_pre);
             defeat.parent = this.node.parent;
             defeat.position = cc.v2(0,0);

@@ -25,6 +25,7 @@ cc.Class({
     backHome(){
         this.node.getChildByName('view_back').on(cc.Node.EventType.TOUCH_END,(event)=>{
             this.node.active = false;
+            this.node.parent.getChildByName('view_main_coinNum').getComponent('view_main_coinNum').onLoad();
         })
     },
 

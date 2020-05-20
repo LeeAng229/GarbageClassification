@@ -162,7 +162,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "773c80ef-b2f6-47e6-8cc9-26e4dcf5c73b"
+      "__uuid__": "8ef06c45-75af-4fe9-9021-dd59baba0004"
     },
     "_type": 1,
     "_sizeMode": 0,
@@ -283,19 +283,19 @@
       "a": 200
     },
     "_N$normalSprite": {
-      "__uuid__": "773c80ef-b2f6-47e6-8cc9-26e4dcf5c73b"
+      "__uuid__": "8ef06c45-75af-4fe9-9021-dd59baba0004"
     },
     "_N$pressedSprite": {
-      "__uuid__": "d766710a-0575-4a93-846f-f9aa4b9e0cef"
+      "__uuid__": "67c17eb6-81e5-4ac0-9a3a-be673a5f255c"
     },
     "pressedSprite": {
-      "__uuid__": "d766710a-0575-4a93-846f-f9aa4b9e0cef"
+      "__uuid__": "67c17eb6-81e5-4ac0-9a3a-be673a5f255c"
     },
     "_N$hoverSprite": {
-      "__uuid__": "d766710a-0575-4a93-846f-f9aa4b9e0cef"
+      "__uuid__": "67c17eb6-81e5-4ac0-9a3a-be673a5f255c"
     },
     "hoverSprite": {
-      "__uuid__": "d766710a-0575-4a93-846f-f9aa4b9e0cef"
+      "__uuid__": "67c17eb6-81e5-4ac0-9a3a-be673a5f255c"
     },
     "_N$disabledSprite": null,
     "_N$target": {
@@ -343,6 +343,9 @@
     "_enabled": true,
     "startGameOpenPre": {
       "__uuid__": "7333a68a-6d7f-48bd-8de0-6fc7e78a08d1"
+    },
+    "selectLevelPre": {
+      "__uuid__": "8bfef8a2-b4ce-43c6-990f-1d745e2a0951"
     },
     "_id": ""
   },

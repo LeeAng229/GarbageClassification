@@ -24,29 +24,32 @@ cc.Class({
         }
         //为buttons中的继续按钮添加点击事件
         let continueNode = this.buttons.getChildByName('next');
-            continueNode.on(cc.Node.EventType.TOUCH_END,(event)=>{
-                GS.Constants.starNum = 0;
-                let gameLevelInfo = GS.KVStorage.loadObj('GameLevelInfo');
-                let index = 0;
-                for(let key in gameLevelInfo){
-                    if(gameLevelInfo[key].starNum >= 2 && gameLevelInfo[key].isUnlock){
-                        index += 1;
-                    }else if(gameLevelInfo[key].starNum <2 && gameLevelInfo[key].isUnlock){
-                        index += 1;
-                        cc.log(index);
-                        //获取此时这个键的值
-                        let levelConfig = GS.KVStorage.loadObj('GameLevelInfo')[key];
-                        GS.Constants.currentLevel = index;
-                        GS.Constants.levelConfig = levelConfig;
-                        GS.Constants.gameLevelInfo = GS.KVStorage.loadObj('GameLevelInfo');
-                        cc.director.loadScene('GameScene');
-                        break; 
-                    }
+        continueNode.on(cc.Node.EventType.TOUCH_END,(event)=>{
+            GS.Constants.starNum = 0;
+            let gameLevelInfo = GS.KVStorage.loadObj('GameLevelInfo');
+            let index = 0;
+            for(let key in gameLevelInfo){
+                if(gameLevelInfo[key].starNum >= 2 && gameLevelInfo[key].isUnlock){
+                    index += 1;
+                }else if(gameLevelInfo[key].starNum <2 && gameLevelInfo[key].isUnlock){
+                    index += 1;
                     cc.log(index);
+                    //获取此时这个键的值
+                    let levelConfig = GS.KVStorage.loadObj('GameLevelInfo')[key];
+                    GS.Constants.currentLevel = index;
+                    GS.Constants.levelConfig = levelConfig;
+                    GS.Constants.gameLevelInfo = GS.KVStorage.loadObj('GameLevelInfo');
+                    cc.director.loadScene('GameScene');
+                    break; 
                 }
-            })
-            if(GS.Constants.currentLevel === 3 || GS.Constants.currentLevel === 4)
-                continueNode.active = false;
+                cc.log(index);
+            }
+        })
+        cc.log('现在的关卡为：',GS.Constants.currentLevel);
+        if(GS.Constants.currentLevel === 3 || GS.Constants.currentLevel === 4)
+            continueNode.active = false;
+        // let continueNode = this.buttons.getChildByName('next');
+        // continueNode.active = false;
 
         //为buttons中的返回游戏主界面添加点击事件
         let backhome = this.buttons.getChildByName('backhome');

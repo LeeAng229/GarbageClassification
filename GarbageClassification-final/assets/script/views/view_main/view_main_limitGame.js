@@ -43,7 +43,7 @@ cc.Class({
     enterLimitGame(){
         let levelConfig = GS.KVStorage.loadObj('GameLevelInfo')['level4'];
         GS.Constants.levelConfig = levelConfig;
-        GS.Constants.currentLevel = undefined;
+        GS.Constants.currentLevel = 4;
         cc.log(levelConfig);
         GS.Constants.gameLevelInfo = GS.KVStorage.loadObj('GameLevelInfo');
         cc.director.loadScene('GameScene');

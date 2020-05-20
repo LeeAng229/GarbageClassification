@@ -32,7 +32,7 @@ function isBuy(price){
     //判断金币是否够用,够用返回1，不够用返回0
     //获取缓存中的金币数量,改变金币数量
     if(GS.KVStorage.loadStr('coinNum')){
-        let coinNum = GS.KVStorage.loadStr('coinNum');
+        let coinNum = Number(GS.KVStorage.loadStr('coinNum'));
         if(coinNum >= price){
             coinNum -= price;
             GS.KVStorage.saveStr('coinNum',coinNum);
@@ -68,9 +68,11 @@ function useProp(id){
 }
 
 function addCoin(num){
-    let coinNum = GS.KVStorage.loadStr('coinNum');
+    let coinNum = Number(GS.KVStorage.loadStr('coinNum'));
+    cc.log(GS.KVStorage.loadStr('coinNum'));
     coinNum += num;
     GS.KVStorage.saveStr('coinNum',coinNum);
+    cc.log(GS.KVStorage.loadStr('coinNum'));
     return GS.KVStorage.loadStr('coinNum');
 }
 

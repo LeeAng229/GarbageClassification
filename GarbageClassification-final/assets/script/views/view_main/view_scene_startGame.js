@@ -56,25 +56,6 @@ cc.Class({
         this.garbageKnowledgeArr = [];
         this.garbageKnowledgePageArr = [];
         this.root = this.node.getChildByName('root');
-        //实例化健康提示
-        // let view_healthy = cc.instantiate(this.view_healthy_prefab);
-        // let root = this.node;
-        // view_healthy.parent = root.getChildByName('View_Healthy');
-        // //给健康提示加一个显示消失的动作
-        // view_healthy.runAction(
-        //     cc.sequence(
-        //         cc.delayTime(0.5),
-        //         cc.fadeOut(0.4),
-        //         cc.delayTime(1),
-        //         cc.callFunc(()=>{
-        //             this.loadViews();
-        //             view_healthy.destroy();
-        //             let path = 'musics/bg';
-        //             let music_config = [{MUSIC_KEY:'musics/bg'}];
-        //             loadAudio.loadMusicByPath(music_config,path);
-        //         })
-        //     )
-        // );
         this.loadViews();
         let path = 'musics/bg';
         let music_config = [{MUSIC_KEY:'musics/bg'}];
@@ -108,28 +89,6 @@ cc.Class({
                     }
                 })
             }
-
-            // //判断当viewName是view_main_startGame的时候，进行相应的处理
-            // if(viewName == 'view_main_startGame'){
-            //     viewNameNode.on(cc.Node.EventType.TOUCH_END,(event)=>{
-            //         // //做一个场景的跳转
-            //         // cc.director.loadScene('GameScene');
-
-            //         //把所有子节点弹出来
-            //         let children = viewNameNode.children;
-            //         for(let i = 0;i<children.length;i++){
-            //             let child = children[i];
-            //             let childPos = child.position;
-            //             if(child.name !== 'Background' && child.name !== 'Mask'){
-            //                 child.active = true;
-            //                 child.runAction(
-            //                     cc.moveTo(0.1,cc.v2(0,301*i)),
-            //                     cc.delayTime(0.5)
-            //                 )
-            //             }
-            //         }
-            //     })
-            // }
             ViewMap.set(viewName,viewNameNode);
         });
     },

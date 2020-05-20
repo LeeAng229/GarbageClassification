@@ -300,7 +300,9 @@ cc.Class({
                         //结束判断是否成功通关
                         if(this.starNum >= 2){
                             let gameLevelInfo = GS.Constants.gameLevelInfo;
-                            gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+                            if(this.starNum >= gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum){
+                                gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+                            }
                             gameLevelInfo[`level${GS.Constants.currentLevel + 1}`].isUnlock = true;
                             GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
                             let success = cc.instantiate(this.success_pre);
@@ -323,6 +325,11 @@ cc.Class({
                             }
                         }else{
                             this.wave -= 1;
+                            let gameLevelInfo = GS.Constants.gameLevelInfo;
+                            if(this.starNum >= gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum){
+                                gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+                            }
+                            GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
                             let defeat = cc.instantiate(this.defeat_pre);
                             defeat.parent = this.node;
                             defeat.position = cc.v2(0,0);
@@ -457,7 +464,9 @@ cc.Class({
             if(this.errorNum == 3){
                 if(this.starNum >= 2){
                     let gameLevelInfo = GS.Constants.gameLevelInfo;
-                    gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+                    if(this.starNum >= gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum){
+                        gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+                    }
                     gameLevelInfo[`level${GS.Constants.currentLevel + 1}`].isUnlock = true;
                     GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
                     this.wave -= 1;
@@ -481,6 +490,11 @@ cc.Class({
                     }
                 }else{
                     this.wave -= 1;
+                    let gameLevelInfo = GS.Constants.gameLevelInfo;
+                    if(this.starNum >= gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum){
+                        gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+                    }
+                    GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
                     let defeat = cc.instantiate(this.defeat_pre);
                     defeat.parent = this.node.parent;
                     defeat.position = cc.v2(0,0);
@@ -700,7 +714,9 @@ cc.Class({
     isSuccess(){
         if(this.starNum >= 2){
             let gameLevelInfo = GS.Constants.gameLevelInfo;
-            gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+            if(this.starNum >= gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum){
+                gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+            }
             gameLevelInfo[`level${GS.Constants.currentLevel + 1}`].isUnlock = true;
             GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
             this.wave -= 1;
@@ -724,6 +740,11 @@ cc.Class({
             }
         }else{
             this.wave -= 1;
+            let gameLevelInfo = GS.Constants.gameLevelInfo;
+            if(this.starNum >= gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum){
+                gameLevelInfo[`level${GS.Constants.currentLevel}`].starNum = this.starNum;
+            }
+            GS.KVStorage.saveObj('GameLevelInfo',gameLevelInfo);
             let defeat = cc.instantiate(this.defeat_pre);
             defeat.parent = this.node.parent;
             defeat.position = cc.v2(0,0);

@@ -67,8 +67,14 @@ let getNum = function(id){
     }
 }
 
+//获取当前金币数量
+let getCoinNum = function(){
+    return GS.KVStorage.loadStr('coinNum');
+}
+
 module.exports = {
     getGoods,
     getProps,
-    getNum
+    getNum,
+    getCoinNum
 }
