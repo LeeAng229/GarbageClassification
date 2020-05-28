@@ -10,6 +10,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.currentPathPointCount = 0;
         this.bottom = 'view_game_buttom';
         if(GS.Constants.currentLevel == 1){
             this.bottom = 'view_game_buttom';
@@ -26,6 +27,31 @@ cc.Class({
             loadAudio.loadSoundByPath(sound_config,path);
             this.node.parent.getComponent(this.bottom).isSuccess();
         })
+    },
+
+    setPathNodes(pathNodes,speed){
+        this.pathNodes = pathNodes;
+        this.speed = speed;
+        if(!this.pathDirection)
+            this.pathDirection = this.pathNodes[0].position.sub(this.node.position).normalize();
+    },
+
+    move(){
+        if(this.node.id === 1)
+            cc.log(this.currentPathPointCount);
+        let distance = this.pathNodes[this.currentPathPointCount].position.sub(this.node.position).mag();
+        if(distance < 10){
+            this.currentPathPointCount ++;
+            //到达了最后一个路径节点
+            if(this.currentPathPointCount === this.pathNodes.length){
+                return;
+            }
+            this.pathDirection = this.pathNodes[this.currentPathPointCount].position.sub(this.node.position).normalize();
+        }else{
+            if(this.pathDirection){
+                this.node.position = this.node.position.add(this.pathDirection.mul(this.speed));
+            }
+        }
     },
 
     start () {

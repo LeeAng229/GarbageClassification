@@ -260,6 +260,7 @@ cc.Class({
             let afterTime = GS.GSDate.timeStamp();
             //当时间间隔大于垃圾生成配置间隔时，生成垃圾
             if(afterTime - this.beforeTime >= this.levelConfig.waves[this.wave].dt && GS.Constants.gameState == 'play'){
+                cc.log(afterTime - this.beforeTime);
                 if(this.unUsedGarbages.length <= 10){
                     let garbage = cc.instantiate(this.garbagePre);
                     let boundY = GS.Random.getRandom(-324,-124);

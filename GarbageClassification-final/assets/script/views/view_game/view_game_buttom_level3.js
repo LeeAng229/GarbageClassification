@@ -475,8 +475,8 @@ cc.Class({
                             }else if(this.rightTimes >= 40){
                                 this.starNum = 3;
                                 this.rightTimes = this.rightTimes - 40;
-                                if(this.rightTimes > 25){
-                                    this.rightTimes = 25;
+                                if(this.rightTimes > 50){
+                                    this.rightTimes = 50;
                                 }
                             }
                             let starAfterNum  = this.starNum;
@@ -545,8 +545,8 @@ cc.Class({
                             }else if(this.rightTimes >= 40){
                                 this.starNum = 3;
                                 this.rightTimes = this.rightTimes - 40;
-                                if(this.rightTimes > 25){
-                                    this.rightTimes = 25;
+                                if(this.rightTimes > 50){
+                                    this.rightTimes = 50;
                                 }
                             }
                             let starAfterNum  = this.starNum;
@@ -570,7 +570,7 @@ cc.Class({
 
             //按百分之十的概率随机生成障碍物
             //this.obstacleBeforeTime += dt;
-            if(afterTime - this.obstacleBeforeTime >= 2000 && GS.Constants.gameState == 'play'){
+            if(afterTime - this.obstacleBeforeTime >= 2000 && GS.Constants.gameState == 'play' && this.wave <= 2){
                 let random = GS.Random.getRandom(0,10);
                 cc.log('时间间隔为：',afterTime - this.obstacleBeforeTime,'    随机数为：',random);
                 this.obstacleBeforeTime = afterTime;
@@ -583,59 +583,55 @@ cc.Class({
                         if(random1 >=5 && random1 <=9){
                             obstacle.position = cc.v2(900,-114);
                             obstacle.parent = this.node;
-                            for(let i = 0;i < this.usedGarbages.length;i++){
-                                while(obstacle.position.sub(this.usedGarbages[i].position).mag() < 100){
-                                    obstacle.x -= 1;
-                                }
-                            }
                             this.unUsedObstacles.push(obstacle);
                         }
                         else{
                             obstacle.position = cc.v2(-900,-12);
                             obstacle.parent = this.node;
-                            for(let i = 0;i < this.upUsedGarbages.length;i++){
-                                while(obstacle.position.sub(this.upUsedGarbages[i].position).mag() < 100){
-                                    obstacle.x += 1;
-                                }
-                            }
                             this.upUnUsedObstacles.push(obstacle);
                         }
                     }
                     if(this.unUsedObstacles.length > 0){
                         let obstacle = this.unUsedObstacles[0];
+                        for(let j = 0;j < this.usedGarbages.length;j++){
+                            while(obstacle.position.sub(this.usedGarbages[j].position).mag() < 30){
+                                obstacle.x -= 5;
+                            }
+                        }
                         this.usedObstacles.push(obstacle);
                         this.unUsedObstacles.shift();
                     }
                     if(this.upUnUsedObstacles.length > 0){
                         let obstacle = this.upUnUsedObstacles[0];
+                        for(let j = 0;j < this.upUsedGarbages.length;j++){
+                            while(obstacle.position.sub(this.upUsedGarbages[j].position).mag() < 30){
+                                obstacle.x += 5;
+                            }
+                        }
                         this.upUsedObstacles.push(obstacle);
                         this.upUnUsedObstacles.shift();
                     }
                 }
             }
-            if(GS.Constants.gameState == 'play'){
+            if(GS.Constants.gameState == 'play' && this.speed){
                 //判断正在使用的障碍物中是否包含炸弹，如果包含则让它移动
                 if(this.usedObstacles.length > 0){
                     for(let i = 0;i<this.usedObstacles.length;i++){
-                        if(this.speed){
-                            this.usedObstacles[i].x -= this.speed;
-                            if(this.usedObstacles[i].x <= -800){
-                                this.usedObstacles[i].x = 900;
-                                this.unUsedObstacles.push(this.usedObstacles[i]);
-                                this.usedObstacles.splice(i,1);
-                            }
+                        this.usedObstacles[i].x -= this.speed;
+                        if(this.usedObstacles[i].x <= -800){
+                            this.usedObstacles[i].x = 900;
+                            this.unUsedObstacles.push(this.usedObstacles[i]);
+                            this.usedObstacles.splice(i,1);
                         }
                     }
                 }
                 if(this.upUsedObstacles.length > 0){
                     for(let i = 0;i<this.upUsedObstacles.length;i++){
-                        if(this.speed){
-                            this.upUsedObstacles[i].x += this.speed;
-                            if(this.upUsedObstacles[i].x >= 800){
-                                this.upUsedObstacles[i].x = -900;
-                                this.upUnUsedObstacles.push(this.upUsedObstacles[i]);
-                                this.upUsedObstacles.splice(i,1);
-                            }
+                        this.upUsedObstacles[i].x += this.speed;
+                        if(this.upUsedObstacles[i].x >= 800){
+                            this.upUsedObstacles[i].x = -900;
+                            this.upUnUsedObstacles.push(this.upUsedObstacles[i]);
+                            this.upUsedObstacles.splice(i,1);
                         }
                     }
                 }
@@ -756,8 +752,8 @@ cc.Class({
                 this.starNum += 1;
                 GS.Constants.starNum = this.starNum;
                 this.setSpeed(this.starNum);
-            }else if(this.rightTimes >= 25 && this.starNum == 3){
-                this.rightTimes = 25;
+            }else if(this.rightTimes >= 50 && this.starNum == 3){
+                this.rightTimes = 50;
                 this.starNum = 3;
                 GS.Constants.starNum = this.starNum;
                 this.setSpeed(this.starNum);
@@ -808,8 +804,8 @@ cc.Class({
             }else if(this.rightTimes >= 40){
                 this.starNum = 3;
                 this.rightTimes = this.rightTimes - 40;
-                if(this.rightTimes > 25){
-                    this.rightTimes = 25;
+                if(this.rightTimes > 50){
+                    this.rightTimes = 50;
                 }
             }
             let starAfterNum  = this.starNum;
@@ -878,8 +874,8 @@ cc.Class({
             this.starNum += 1;
             GS.Constants.starNum = this.starNum;
             this.setSpeed(this.starNum);
-        }else if(this.rightTimes >= 25 && this.starNum == 3){
-            this.rightTimes = 25;
+        }else if(this.rightTimes >= 50 && this.starNum == 3){
+            this.rightTimes = 50;
             this.starNum = 3;
             GS.Constants.starNum = this.starNum;
             this.setSpeed(this.starNum);

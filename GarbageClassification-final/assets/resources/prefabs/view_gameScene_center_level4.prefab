@@ -124,8 +124,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -206.959,
-      "y": 126.175,
+      "x": -271.47,
+      "y": -36.928,
       "z": 0
     },
     "_scale": {
@@ -270,7 +270,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "77JzcNYk1EcZKKt3UFKBrJ",
+    "fileId": "f2xLUgxg5MNYOoV+VAzMT0",
     "sync": false
   },
   {
@@ -313,7 +313,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "ac4Opz8HNB26OjXwsuYCy+",
+    "fileId": "6bHtSx3bZFG4PajnMUdiLO",
     "sync": false
   },
   {
@@ -358,8 +358,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -147.547,
-      "y": -254.217,
+      "x": -73.404,
+      "y": -38.477,
       "z": 0
     },
     "_scale": {
@@ -504,7 +504,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "d0oJbPjBtNwI066SMmJPzf",
+    "fileId": "fbFoxbHoFAj6J3Bcna8m/i",
     "sync": false
   },
   {
@@ -547,7 +547,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "31qkRxj5tA3Z/rEW4zxpXx",
+    "fileId": "36xxaQo+FK0ZKHStHEup1s",
     "sync": false
   },
   {
@@ -592,8 +592,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 131.483,
-      "y": -254.217,
+      "x": 116.011,
+      "y": -35.158,
       "z": 0
     },
     "_scale": {
@@ -738,7 +738,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "c8lm8bYsBEOYXCBLgDJtoU",
+    "fileId": "36XZxDn6REyY8gaBQclI55",
     "sync": false
   },
   {
@@ -781,7 +781,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "b1/6UKzjZBBpEFAbBlxEXa",
+    "fileId": "1fEChZDNxFI6Hw7xWbhaP/",
     "sync": false
   },
   {
@@ -826,8 +826,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 206.979,
-      "y": 122.814,
+      "x": 314.627,
+      "y": -34.842,
       "z": 0
     },
     "_scale": {
@@ -972,7 +972,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "59jNmplvdDZ6PbQ6x3+9V4",
+    "fileId": "02SMM6s7RL4bZy5Wttpy/6",
     "sync": false
   },
   {
@@ -1015,7 +1015,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "c4OhMuTJJNALUf50OlzSD/",
+    "fileId": "8fTzx1aQpACYY5iys9TkoM",
     "sync": false
   },
   {
@@ -1050,7 +1050,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "90bbQQThlD96XYoDwJxSEB",
+    "fileId": "a0mts72qRChoAOAxsbINcM",
     "sync": false
   }
 ]

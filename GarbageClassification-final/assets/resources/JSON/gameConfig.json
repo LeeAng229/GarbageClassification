@@ -8,10 +8,10 @@
                 "speed":3
             },
             "2":{
-                "speed":4
+                "speed":3
             },
             "3":{
-                "speed":5
+                "speed":4
             }
         }
     },
@@ -21,13 +21,13 @@
                 "speed":2
             },
             "1":{
-                "speed":4
+                "speed":3
             },
             "2":{
-                "speed":5
+                "speed":3
             },
             "3":{
-                "speed":6
+                "speed":4
             }
         }
     },
@@ -37,13 +37,13 @@
                 "speed":2
             },
             "1":{
-                "speed":4
+                "speed":2
             },
             "2":{
-                "speed":5
+                "speed":2
             },
             "3":{
-                "speed":6
+                "speed":2
             }
         }
     },
@@ -53,13 +53,13 @@
                 "speed":2
             },
             "1":{
-                "speed":4
+                "speed":2
             },
             "2":{
-                "speed":6
+                "speed":3
             },
             "3":{
-                "speed":6
+                "speed":3
             }
         }
     }

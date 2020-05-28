@@ -8,6 +8,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.currentPathPointCount = 0;
         this.node.state = 'moving';
         let self = this;
         this.bottom = 'view_game_buttom';
@@ -48,8 +49,39 @@ cc.Class({
         this.state = state;
     },
 
+    setPathNodes(pathNodes,speed){
+        this.pathNodes = pathNodes;
+        this.speed = speed;
+        if(!this.pathDirection)
+            this.pathDirection = this.pathNodes[0].position.sub(this.node.position).normalize();
+    },
+
+    move(){
+        if(this.node.id === 1)
+            cc.log(this.currentPathPointCount);
+        let distance = this.pathNodes[this.currentPathPointCount].position.sub(this.node.position).mag();
+        if(distance < 10){
+            this.currentPathPointCount ++;
+            //到达了最后一个路径节点
+            if(this.currentPathPointCount === this.pathNodes.length){
+                return;
+            }
+            this.pathDirection = this.pathNodes[this.currentPathPointCount].position.sub(this.node.position).normalize();
+        }else{
+            if(this.pathDirection){
+                this.node.position = this.node.position.add(this.pathDirection.mul(this.speed));
+            }
+        }
+    },
+
+    setCurrentPathPointCount(){
+        this.currentPathPointCount = 0;
+        this.pathDirection = null;
+    },
+
     update (dt) {
         if(this.state === 'auto'){
+            this.node.state = null;
             let distance = this.dustbin.position.sub(this.node.position).mag();
             this.direction = this.dustbin.position.sub(this.node.position).normalize();
             if(distance >= 10){
@@ -57,6 +89,7 @@ cc.Class({
             }else{
                 this.node.parent.parent.getChildByName('view_gameScene_bottom').getComponent(`${this.bottom}`).robotAddScore(this.node);
                 this.state = null;
+                this.node.state = 'moving';
             }
         }
     },

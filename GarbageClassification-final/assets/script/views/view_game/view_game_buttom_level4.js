@@ -16,7 +16,8 @@ cc.Class({
         success_pre:cc.Prefab,
         defeat_pre:cc.Prefab,
         bombPre:cc.Prefab,
-        illustratedPre:cc.Prefab
+        illustratedPre:cc.Prefab,
+        pathNodesParent:cc.Node
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -59,50 +60,20 @@ cc.Class({
         //定义一个存放这些垃圾节点的数组
         this.unUsedGarbages = [];
         this.usedGarbages = [];
-        this.upUnUsedGarbages = [];
-        this.upUsedGarbages = [];
 
         //定义一个存放障碍物节点的数组
         this.unUsedObstacles = [];
         this.usedObstacles = [];
-        this.upUnUsedObstacles = [];
-        this.upUsedObstacles = [];
-        //初始化出十个传动带的斜杠
-        for(let i = 0;i<9;i++){
-            let scrollBar = cc.instantiate(this.scrollBarPre);
-            scrollBar.x = -560 + 160*i;
-            scrollBar.y = -110; // -22
-            scrollBar.height = 110;
-            scrollBar.parent = this.node;
-            this.scrollBars.push(scrollBar);
-        }
-        for(let i = 0;i<9;i++){
-            let scrollBar = cc.instantiate(this.scrollBarPre);
-            scrollBar.x = -560 + 160*i;
-            scrollBar.y = -22;
-            scrollBar.height = 110;
-            scrollBar.parent = this.node;
-            scrollBar.scaleX = -1;
-            this.upScrollBars.push(scrollBar);
-        }
         //初始化出20个垃圾的预制体
         for(let i = 0; i < 20; i++){
             let garbage = cc.instantiate(this.garbagePre);
-            let random1 = GS.Random.getRandom(0,10);
-            if(random1 >= 5 && random1 <= 9){
-                garbage.position = cc.v2(900,-124);
+            garbage.position = this.pathNodesParent.getChildByName('startNode').position;
+            garbage.x += 100;
 
-                garbage.parent = this.node;
-                garbage.scale = 0.5;
-                garbage.id = i;
-                this.unUsedGarbages.push(garbage);
-            }else{
-                garbage.position = cc.v2(-900,-22);
-                garbage.parent = this.node;
-                garbage.scale = 0.5;
-                garbage.id = i;
-                this.upUnUsedGarbages.push(garbage);
-            }
+            garbage.parent = this.node;
+            garbage.scale = 0.5;
+            garbage.id = i;
+            this.unUsedGarbages.push(garbage);
         }
 
         //获取四个垃圾桶的节点信息
@@ -259,16 +230,7 @@ cc.Class({
 
     //获取当前屏幕内的所有垃圾
     getCurrentGarbages(){
-        let arr = [];
-        for(let i in this.usedGarbages){
-            if(this.usedGarbages[i].type == 0 || this.usedGarbages[i].type == 1 || this.usedGarbages[i].type == 2 || this.usedGarbages[i].type == 3)
-                arr.push(this.usedGarbages[i]);
-        }
-        for(let i in this.upUsedGarbages){
-            if(this.upUsedGarbages[i].type == 0 || this.upUsedGarbages[i].type == 1 || this.upUsedGarbages[i].type == 2 || this.upUsedGarbages[i].type == 3)
-                arr.push(this.upUsedGarbages[i]);
-        }
-        return arr;
+        return this.usedGarbages;
     },
     //获取所有的垃圾桶
     getDustbins(){
@@ -281,102 +243,42 @@ cc.Class({
 
     update (dt) {
         if(GS.Constants.gameState == 'play'){
-            //遍历存放传送带条的数组，对每个传送条的x值加一个数实现移动功能
-            for(let i in this.scrollBars){
-                if(this.speed){
-                    this.scrollBars[i].x -= this.speed;
-                    if(this.scrollBars[i].x <= -720){
-                        this.scrollBars[i].x = 720;
-                    }
-                }
-            }
-            for(let i in this.upScrollBars){
-                if(this.speed){
-                    this.upScrollBars[i].x += this.speed;
-                    if(this.upScrollBars[i].x >= 720){
-                        this.upScrollBars[i].x = -720;
-                    }
-                }
-            }
             let afterTime = GS.GSDate.timeStamp();
             //当时间间隔大于垃圾生成配置间隔时，生成垃圾
             if(afterTime - this.beforeTime >= this.levelConfig.waves[this.wave].dt && GS.Constants.gameState == 'play'){
                 if(this.unUsedGarbages.length <= 10){
                     let garbage = cc.instantiate(this.garbagePre);
                     garbage.scale = 0.5;
-                    let boundY = GS.Random.getRandom(-100,0);
-                    let random1 = GS.Random.getRandom(0,10);
-                    if(random1 >= 5 && random1 <= 9){
-                        garbage.position = cc.v2(900,-124);
-                        garbage.parent = this.node;
-                        let maxId = -10000;
-                        let tempArr = [];
-                        for(let i in this.usedGarbages){
-                            tempArr.push(this.usedGarbages[i]);
-                        }
-                        for(let i in this.unUsedGarbages){
-                            tempArr.push(this.unUsedGarbages[i]);
-                        }
-                        for(let i in this.upUsedGarbages){
-                            tempArr.push(this.upUsedGarbages[i]);
-                        }
-                        for(let i in this.upUnUsedGarbages){
-                            tempArr.push(this.upUnUsedGarbages[i]);
-                        }
-                        for(let i in tempArr){
-                            if(tempArr[i].id > maxId){
-                                maxId = tempArr[i].id;
-                            }
-                        }
-                        garbage.id = maxId + 1;
-                        this.unUsedGarbages.push(garbage);
-                        LOG.debug('实例化了好多！');
-                    }else{
-                        garbage.position = cc.v2(-900,-22);
-                        garbage.parent = this.node;
-                        let maxId = -10000;
-                        let tempArr = [];
-                        for(let i in this.usedGarbages){
-                            tempArr.push(this.usedGarbages[i]);
-                        }
-                        for(let i in this.unUsedGarbages){
-                            tempArr.push(this.unUsedGarbages[i]);
-                        }
-                        for(let i in this.upUsedGarbages){
-                            tempArr.push(this.upUsedGarbages[i]);
-                        }
-                        for(let i in this.upUnUsedGarbages){
-                            tempArr.push(this.upUnUsedGarbages[i]);
-                        }
-                        for(let i in tempArr){
-                            if(tempArr[i].id > maxId){
-                                maxId = tempArr[i].id;
-                            }
-                        }
-                        garbage.id = maxId + 1;
-                        this.upUnUsedGarbages.push(garbage);
-                        LOG.debug('实例化了好多！');
+                    garbage.position = this.pathNodesParent.getChildByName('startNode').position;
+                    garbage.x += 100;
+                    garbage.parent = this.node;
+                    let maxId = -10000;
+                    let tempArr = [];
+                    for(let i in this.usedGarbages){
+                        tempArr.push(this.usedGarbages[i]);
                     }
-                    cc.log("up:",this.upUnUsedGarbages,'    down:',this.unUsedGarbages);
-                    
+                    for(let i in this.unUsedGarbages){
+                        tempArr.push(this.unUsedGarbages[i]);
+                    }
+                    for(let i in tempArr){
+                        if(tempArr[i].id > maxId){
+                            maxId = tempArr[i].id;
+                        }
+                    }
+                    garbage.id = maxId + 1;
+                    this.unUsedGarbages.push(garbage);
+                    LOG.debug('实例化了好多！');
                 }
-                if(this.unUsedGarbages.length + this.upUnUsedGarbages.length > 0 && this.currentGenGarbageNum < this.number){
+                if(this.unUsedGarbages.length > 0 && this.currentGenGarbageNum < this.number){
                     if(this.unUsedGarbages.length > 0){
                         this.genGarbage(this.unUsedGarbages,this.usedGarbages);
                         cc.log('运行了 genGarbage,并且speed为：',this.speed);
                         this.currentGenGarbageNum += 1;
                     }
-                    if(this.upUnUsedGarbages.length > 0){
-                        this.genGarbage(this.upUnUsedGarbages,this.upUsedGarbages);
-                        cc.log('运行了 genGarbage,并且speed为：',this.speed);
-                        this.currentGenGarbageNum += 1;
-                    }
                 }else if(this.usedGarbageNum >= this.number){
                     for(let i in this.usedObstacles){
-                        this.usedObstacles[i].x = -850;
-                    }
-                    for(let i in this.upUsedObstacles){
-                        this.upUsedObstacles[i].x = 850;
+                        this.usedObstacles[i].position = this.pathNodesParent.children[0].position;
+                        this.usedObstacles[i].x += 100;
                     }
                     //重置波次生成垃圾的数量、波次+1、重新根据波次获取本波次需要生成的垃圾数量
                     this.usedGarbageNum = 0;
@@ -394,11 +296,14 @@ cc.Class({
                 }
                 this.beforeTime = afterTime;
             }
-            for(let i in this.usedGarbages){
-                if(this.speed){
+            if(this.speed){
+                for(let i in this.usedGarbages){
                     if(this.usedGarbages[i].state === 'moving'){
-                        this.usedGarbages[i].x -= this.speed;
-                        if(this.usedGarbages[i].x <= -800){
+                        // //给garbage传递一个路径数组
+                        this.usedGarbages[i].getComponent('view_gameScene_garbage').setPathNodes(this.pathNodesParent.children,this.speed);
+                        this.usedGarbages[i].getComponent('view_gameScene_garbage').move();
+                        
+                        if(this.usedGarbages[i].position.sub(this.pathNodesParent.getChildByName('garbageBag').position).mag() <= 30){
                             //加载并播放错误的音效
                             loadSoundByPath([{clearWin:'musics/clearFail'}],'musics/clearFail');
                             //当垃圾走出屏幕后，给使用过的垃圾数量+1
@@ -440,8 +345,8 @@ cc.Class({
                             }else if(this.rightTimes >= 40){
                                 this.starNum = 3;
                                 this.rightTimes = this.rightTimes - 40;
-                                if(this.rightTimes > 25){
-                                    this.rightTimes = 25;
+                                if(this.rightTimes > 50){
+                                    this.rightTimes = 50;
                                 }
                             }
                             let starAfterNum  = this.starNum;
@@ -455,7 +360,9 @@ cc.Class({
                             //改变分数
                             this.currentScore = this.currentScore = this.view_gameScene.getComponent('view_gameScene').setScore(-20);
 
-                            this.usedGarbages[i].x = 900;
+                            this.usedGarbages[i].position = this.pathNodesParent.getChildByName('startNode').position;
+                            this.usedGarbages[i].x += 100;
+                            this.usedGarbages[i].getComponent('view_gameScene_garbage').setCurrentPathPointCount();
                             this.unUsedGarbages.push(this.usedGarbages[i]);
                             this.usedGarbages.splice(i,1);
                         }
@@ -463,106 +370,22 @@ cc.Class({
                 }
             }
 
-            for(let i in this.upUsedGarbages){
-                if(this.speed){
-                    if(this.upUsedGarbages[i].state === 'moving'){
-                        this.upUsedGarbages[i].x += this.speed;
-                        if(this.upUsedGarbages[i].x >= 800){
-                            //加载并播放错误的音效
-                            loadSoundByPath([{clearWin:'musics/clearFail'}],'musics/clearFail');
-                            //当垃圾走出屏幕后，给使用过的垃圾数量+1
-                            this.usedGarbageNum  += 1;
-                            //错误次数+1
-                            if(this.errorNum < 3){
-                                this.errorNum += 1;
-                                this.setErrorNum();
-                            }
-                            //根据当前正确个数和星值算出总的正确个数。
-                            if(this.starNum == 0){
-                                this.rightTimes = this.rightTimes;
-                            }else if(this.starNum == 1){
-                                this.rightTimes = this.rightTimes + 10;
-                            }else if(this.starNum == 2){
-                                this.rightTimes = this.rightTimes + 20;
-                            }else if(this.starNum == 3){
-                                this.rightTimes = this.rightTimes + 40;
-                            }
-
-                            //拖放垃圾错误，扣除两个正确值，判断是否可扣
-                            if(this.rightTimes > 0){
-                                this.rightTimes -= 2;
-                                if(this.rightTimes < 0){
-                                    this.rightTimes = 0;
-                                }
-                            }
-                            let starNumTemp = this.starNum;
-                            //this.starNum = Math.floor(this.rightTimes/10);
-                            //把总正确数量解析成星值和正确数量
-                            if(this.rightTimes < 10){
-                                this.starNum = 0;
-                            }else if(this.rightTimes >= 10 && this.rightTimes < 20){
-                                this.starNum = 1;
-                                this.rightTimes = this.rightTimes - 10;
-                            }else if(this.rightTimes >= 20 && this.rightTimes < 40){
-                                this.starNum = 2;
-                                this.rightTimes = this.rightTimes - 20;
-                            }else if(this.rightTimes >= 40){
-                                this.starNum = 3;
-                                this.rightTimes = this.rightTimes - 40;
-                                if(this.rightTimes > 25){
-                                    this.rightTimes = 25;
-                                }
-                            }
-                            let starAfterNum  = this.starNum;
-                            //this.rightTimes = this.rightTimes%10;
-                            // if(starNumTemp > this.starNum && this.wave - 1 >= 1){
-                            //     this.wave -= 1;
-                            // }
-                            GS.Constants.starNum = this.starNum;
-                            this.setSpeed(this.starNum);
-                            this.view_gameScene.getComponent('view_gameScene').setRightAndStarNum(this.rightTimes,this.starNum,this.wave);
-                            //改变分数
-                            this.currentScore = this.view_gameScene.getComponent('view_gameScene').setScore(-20);
-
-                            this.upUsedGarbages[i].x = -900;
-                            this.upUnUsedGarbages.push(this.upUsedGarbages[i]);
-                            this.upUsedGarbages.splice(i,1);
-                        }
-                    }
-                }
-            }
-
             //按百分之十的概率随机生成障碍物
             //this.obstacleBeforeTime += dt;
-            if(afterTime - this.obstacleBeforeTime >= 2000){
+            if(afterTime - this.obstacleBeforeTime >= 5000){
                 let random = GS.Random.getRandom(0,10);
                 cc.log('时间间隔为：',afterTime - this.obstacleBeforeTime,'    随机数为：',random);
                 this.obstacleBeforeTime = afterTime;
-                if(random <= 9 && random > 6){
-                    if(this.unUsedObstacles.length + this.upUnUsedObstacles.length <= 3){
+                if(random <= 9 && random > 3){
+                    if(this.unUsedObstacles.length <= 3){
                         let obstacle = cc.instantiate(this.bombPre);
                         obstacle.scale = 0.5;
-                        let boundY = GS.Random.getRandom(-100,0);
                         let random1 = GS.Random.getRandom(0,10);
                         if(random1 >=5 && random1 <=9){
-                            obstacle.position = cc.v2(900,-124);
+                            obstacle.position = this.pathNodesParent.getChildByName('startNode').position;
+                            obstacle.x += 100;
                             obstacle.parent = this.node;
-                            for(let i = 0;i < this.usedObstacles.length;i++){
-                                while(obstacle.position.sub(this.usedGarbages[i].position).mag() < 100){
-                                    obstacle.x -= 1;
-                                }
-                            }
                             this.unUsedObstacles.push(obstacle);
-                        }
-                        else{
-                            obstacle.position = cc.v2(-900,-22);
-                            obstacle.parent = this.node;
-                            for(let i = 0;i < this.usedObstacles.length;i++){
-                                while(obstacle.position.sub(this.usedGarbages[i].position).mag() < 100){
-                                    obstacle.x += 1;
-                                }
-                            }
-                            this.upUnUsedObstacles.push(obstacle);
                         }
                     }
                     if(this.unUsedObstacles.length > 0){
@@ -570,36 +393,25 @@ cc.Class({
                         this.usedObstacles.push(obstacle);
                         this.unUsedObstacles.shift();
                     }
-                    if(this.upUnUsedObstacles.length > 0){
-                        let obstacle = this.upUnUsedObstacles[0];
-                        this.upUsedObstacles.push(obstacle);
-                        this.upUnUsedObstacles.shift();
-                    }
                 }
             }
-            if(GS.Constants.gameState == 'play'){
+            if(GS.Constants.gameState == 'play' && this.speed){
                 //判断正在使用的障碍物中是否包含炸弹，如果包含则让它移动
                 if(this.usedObstacles.length > 0){
                     for(let i = 0;i<this.usedObstacles.length;i++){
-                        if(this.speed){
-                            this.usedObstacles[i].x -= this.speed;
-                            if(this.usedObstacles[i].x <= -800){
-                                this.usedObstacles[i].x = 900;
-                                this.unUsedObstacles.push(this.usedObstacles[i]);
-                                this.usedObstacles.splice(i,1);
+                        for(let j = 0;j < this.usedGarbages.length;j++){
+                            while(this.usedObstacles[i].position.sub(this.usedGarbages[j].position).mag() < 30){
+                                this.usedObstacles[i].x += 5;
                             }
                         }
-                    }
-                }
-                if(this.upUsedObstacles.length > 0){
-                    for(let i = 0;i<this.upUsedObstacles.length;i++){
-                        if(this.speed){
-                            this.upUsedObstacles[i].x += this.speed;
-                            if(this.upUsedObstacles[i].x >= 800){
-                                this.upUsedObstacles[i].x = -900;
-                                this.upUnUsedObstacles.push(this.upUsedObstacles[i]);
-                                this.upUsedObstacles.splice(i,1);
-                            }
+                        // //给bomb传递一个路径数组
+                        this.usedObstacles[i].getComponent('view_gameScene_bottom_bomb').setPathNodes(this.pathNodesParent.children,this.speed);
+                        this.usedObstacles[i].getComponent('view_gameScene_bottom_bomb').move();
+                        if(this.usedObstacles[i].position.sub(this.pathNodesParent.getChildByName('garbageBag').position).mag() <= 30){
+                            this.usedObstacles[i].position = this.pathNodesParent.getChildByName('startNode').position;
+                            this.usedObstacles[i].x += 100;
+                            this.unUsedObstacles.push(this.usedObstacles[i]);
+                            this.usedObstacles.splice(i,1);
                         }
                     }
                 }
@@ -681,21 +493,14 @@ cc.Class({
         }
         if(targetBustbin && targetBustbin.type === target.node.type){
             let rightPos = target.node.position;
-            let boundY = GS.Random.getRandom(-324,-124);
             let targetId = target.node.id;
             for(let i in this.usedGarbages){
                 if(targetId === this.usedGarbages[i].id){
-                    target.node.position = cc.v2(900,-124);
+                    target.node.position = this.pathNodesParent.getChildByName('startNode');
+                    target.node.x += 100;
+                    target.setCurrentPathPointCount();
                     this.unUsedGarbages.push(this.usedGarbages[i]);
                     this.usedGarbages.splice(i,1);
-                }
-            }
-            //变更
-            for(let i in this.upUsedGarbages){
-                if(targetId === this.upUsedGarbages[i].id){
-                    target.node.position = cc.v2(-900,-22);
-                    this.upUnUsedGarbages.push(this.upUsedGarbages[i]);
-                    this.upUsedGarbages.splice(i,1);
                 }
             }
             this.showResult('right',rightPos);
@@ -765,8 +570,8 @@ cc.Class({
             }else if(this.rightTimes >= 40){
                 this.starNum = 3;
                 this.rightTimes = this.rightTimes - 40;
-                if(this.rightTimes > 25){
-                    this.rightTimes = 25;
+                if(this.rightTimes > 50){
+                    this.rightTimes = 50;
                 }
             }
             let starAfterNum  = this.starNum;
@@ -799,21 +604,14 @@ cc.Class({
     //使用道具对垃圾自动分拣成功后加分
     robotAddScore(target){
         let rightPos = target.position;
-        let boundY = GS.Random.getRandom(-324,-124);
         let targetId = target.id;
         for(let i in this.usedGarbages){
             if(targetId === this.usedGarbages[i].id){
-                target.position = cc.v2(900,-124);
+                target.position = this.pathNodesParent.getChildByName('startNode').position;
+                target.x += 100;
+                target.getComponent('view_gameScene_garbage').setCurrentPathPointCount();
                 this.unUsedGarbages.push(this.usedGarbages[i]);
                 this.usedGarbages.splice(i,1);
-            }
-        }
-        //变更
-        for(let i in this.upUsedGarbages){
-            if(targetId === this.upUsedGarbages[i].id){
-                target.position = cc.v2(-900,-22);
-                this.upUnUsedGarbages.push(this.upUsedGarbages[i]);
-                this.upUsedGarbages.splice(i,1);
             }
         }
         this.showResult('right',rightPos);
@@ -831,8 +629,8 @@ cc.Class({
             this.starNum += 1;
             GS.Constants.starNum = this.starNum;
             this.setSpeed(this.starNum);
-        }else if(this.rightTimes >= 25 && this.starNum == 3){
-            this.rightTimes = 25;
+        }else if(this.rightTimes >= 50 && this.starNum == 3){
+            this.rightTimes = 50;
             this.starNum = 3;
             GS.Constants.starNum = this.starNum;
             this.setSpeed(this.starNum);
